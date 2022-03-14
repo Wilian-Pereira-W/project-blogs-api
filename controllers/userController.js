@@ -12,7 +12,7 @@ const create = async (req, res) => {
 
     const newUser = User.create({ displayName, email, password, image });
 
-    const token = jwtGenerator({ id: newUser.id, displayName, email });
+    const token = jwtGenerator({ id: newUser.id, displayName, email, image });
     return res.status(201).json({ token });
   } catch (error) {
     console.log(error);
@@ -26,14 +26,26 @@ const login = async (req, res, _next) => {
     if (!user || user.password !== password) {
       return res.status(400).json({ message: 'Invalid fields' });
     }
-    const token = jwtGenerator({ id: user.id, displayName: user.displayName, email });
+    const token = jwtGenerator({ 
+      id: user.id, 
+      displayName: user.displayName, 
+      email, 
+      imge: user.image });
       return res.status(200).json({ token });
   } catch (error) {
     console.log(error);
   }
 };
 
+const findAll = async (req, res) => {
+  const userList = await User.findAll({
+    attributes: { exclude: ['password'] },
+  });
+  return res.status(200).json(userList);
+};
+
 module.exports = {
   create,
   login,
+  findAll,
 };
