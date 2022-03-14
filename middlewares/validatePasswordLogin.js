@@ -12,7 +12,7 @@ const validatePasswordLogin = (req, res, next) => {
         message: '"password" is not allowed to be empty',
       }); 
   }
-next();
+  next();
 };
 
 module.exports = validatePasswordLogin;
