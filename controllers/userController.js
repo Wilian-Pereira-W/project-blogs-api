@@ -4,18 +4,30 @@ const jwtGenerator = require('../helpers/jwtGenerator');
 const create = async (req, res) => {
   try {
     const { displayName, email, password, image } = req.body;
-    console.log(User);
 
-  const alreadyExists = await User.findOne({ where: { email } });
-  if (alreadyExists) {
-    return res.status(409).json({ message: 'User already registered' });
+    const alreadyExists = await User.findOne({ where: { email } });
+    if (alreadyExists) {
+      return res.status(409).json({ message: 'User already registered' });
+    }
+
+    const newUser = User.create({ displayName, email, password, image });
+
+    const token = jwtGenerator({ id: newUser.id, displayName, email });
+    return res.status(201).json({ token });
+  } catch (error) {
+    console.log(error);
   }
+};
 
-  const newUser = User.create({ displayName, email, password, image });
-  // return res.status(201).json(newUser);
-
-  const token = jwtGenerator({ id: newUser.id, displayName, email });
-  return res.status(201).json({ token });
+const login = async (req, res, _next) => {
+  try {
+    const { email, password } = req.body;
+    const user = await User.findOne({ where: { email } });
+    if (!user || user.password !== password) {
+      return res.status(400).json({ message: 'Invalid fields' });
+    }
+    const token = jwtGenerator({ id: user.id, displayName: user.displayName, email });
+      return res.status(200).json({ token });
   } catch (error) {
     console.log(error);
   }
@@ -23,4 +35,5 @@ const create = async (req, res) => {
 
 module.exports = {
   create,
+  login,
 };
