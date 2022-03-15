@@ -13,6 +13,12 @@ const create = async (req, res) => {
   }
 };
 
+const findAll = async (req, res) => {
+  const userList = await Categorie.findAll();
+  return res.status(200).json(userList);
+};
+
 module.exports = {
   create,
+  findAll,
 };
