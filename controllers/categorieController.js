@@ -12,8 +12,8 @@ const create = async (req, res) => {
 };
 
 const findAll = async (req, res) => {
-  const userList = await Categorie.findAll();
-  return res.status(200).json(userList);
+  const categorieList = await Categorie.findAll();
+  return res.status(200).json(categorieList);
 };
 
 module.exports = {
