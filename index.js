@@ -1,6 +1,7 @@
 require('dotenv').config();
 const express = require('express');
 const { create, login, findAll, findOne } = require('./controllers/userController');
+const categorieController = require('./controllers/categorieController');
 const {
   validateDisplayName,
   validateEmail,
@@ -17,6 +18,8 @@ app.use(express.json());
 app.post('/login', validateEmailLogin, validatePasswordLogin, login);
 
 app.post('/user', validateDisplayName, validateEmail, validatePassword, create);
+
+app.post('/categories', validateToken, categorieController.create);
 
 app.get('/user', validateToken, findAll);
 
