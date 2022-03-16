@@ -10,9 +10,6 @@ const {
   validatePasswordLogin,
   validateEmailLogin,
   validateToken,
-  validateTitle,
-  validateContent,
-  validateCategoryId,
 } = require('./middlewares');
 
 const app = express();
