@@ -25,12 +25,7 @@ app.post('/user', validateDisplayName, validateEmail, validatePassword, create);
 
 app.post('/categories', validateToken, categorieController.create);
 
-app.post('/post', 
-  validateToken, 
-  validateTitle, 
-  validateContent, 
-  validateCategoryId, 
-  postController.create);
+app.get('/post/:id', validateToken, postController.findOne);
 
 app.get('/post', validateToken, postController.findAll);
 
